@@ -41,4 +41,54 @@ public class JdbcPatientDAO implements PatientDAO {
             statement.executeUpdate();
         }
     }
+
+    @Override
+    public Patient findById(int id) throws SQLException {
+
+        String sql = """ 
+        SELECT * FROM patient WHERE id = ? """;
+
+    try (Connection connection = DBConnection.getConnection();
+        PreparedStatement statement = connection.prepareStatement(sql)) {
+
+        statement.setInt(1, id);
+
+        try (var resultSet = statement.executeQuery()) {
+
+            if (resultSet.next()) {
+
+                Patient patient = new Patient();
+
+                patient.setId(resultSet.getInt("id"));
+                patient.setNom(resultSet.getString("nom"));
+                patient.setPrenom(resultSet.getString("prenom"));
+                patient.setDateNaissance(
+                        resultSet.getDate("date_naissance").toLocalDate()
+                );
+                patient.setNumeroSecuriteSociale(
+                        resultSet.getString("numero_securite_sociale")
+                );
+                patient.setTensionArterielle(
+                        resultSet.getString("tension_arterielle")
+                );
+                patient.setFrequenceCardiaque(
+                        resultSet.getInt("frequence_cardiaque")
+                );
+                patient.setTemperature(
+                        resultSet.getBigDecimal("temperature")
+                );
+                patient.setFrequenceRespiratoire(
+                        resultSet.getInt("frequence_respiratoire")
+                );
+                patient.setHeureArrivee(
+                        resultSet.getTimestamp("heure_arrivee").toLocalDateTime()
+                );
+
+                return patient;
+            }
+
+            return null;
+        }
+    }
+}
 }

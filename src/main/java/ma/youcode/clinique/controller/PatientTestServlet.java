@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import ma.youcode.clinique.entity.Patient;
 import ma.youcode.clinique.repository.JdbcPatientDAO;
@@ -22,6 +23,16 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
 
     try {
         JdbcPatientDAO patientDAO = new JdbcPatientDAO();
+        List<Patient> patients = patientDAO.findAll();
+
+for (Patient p : patients) {
+    response.getWriter().println(
+            p.getId() + " - "
+            + p.getNom() + " "
+            + p.getPrenom() + " - "
+            + p.getHeureArrivee()
+    );
+}
 
         Patient patientTrouve = patientDAO.findById(1);
 

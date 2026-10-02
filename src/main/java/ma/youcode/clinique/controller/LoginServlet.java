@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import ma.youcode.clinique.entity.User;
 import ma.youcode.clinique.repository.JdbcUserDAO;
 import ma.youcode.clinique.service.UserService;
@@ -36,6 +37,11 @@ public class LoginServlet extends HttpServlet {
             User user = userService.login(username, password);
 
             if (user != null) {
+
+                HttpSession session = request.getSession();
+                session.setAttribute("user", user);
+
+                
 
                 response.getWriter().println(
                         "Login réussi : " + user.getUsername()

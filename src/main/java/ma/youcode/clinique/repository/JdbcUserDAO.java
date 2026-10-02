@@ -42,4 +42,25 @@ public class JdbcUserDAO implements UserDAO {
 
         return null;
     }
+  
+@Override
+public void save(User user) throws SQLException {
+
+    String sql = """
+            INSERT INTO utilisateur (username, password, role)
+            VALUES (?, ?, ?)
+            """;
+
+    try (Connection connection = DBConnection.getConnection();
+         PreparedStatement statement = connection.prepareStatement(sql)) {
+
+        statement.setString(1, user.getUsername());
+        statement.setString(2, user.getPassword());
+        statement.setString(3, user.getRole());
+
+        statement.executeUpdate();
+    }
+}
+
+
 }

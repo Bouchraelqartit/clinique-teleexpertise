@@ -7,4 +7,5 @@ import ma.youcode.clinique.entity.User;
 public interface UserDAO {
 
     User findByUsername(String username) throws SQLException;
+    void save(User user) throws SQLException;
 }

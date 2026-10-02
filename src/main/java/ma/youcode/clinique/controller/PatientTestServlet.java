@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import ma.youcode.clinique.entity.Patient;
 import ma.youcode.clinique.repository.JdbcPatientDAO;
@@ -17,28 +18,34 @@ import ma.youcode.clinique.repository.JdbcPatientDAO;
 public class PatientTestServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
 
-        Patient patient = new Patient();
+    try {
+        JdbcPatientDAO patientDAO = new JdbcPatientDAO();
+        List<Patient> patients = patientDAO.findAll();
 
-        patient.setNom("Test");
-        patient.setPrenom("Patient");
-        patient.setDateNaissance(LocalDate.of(2000, 5, 10));
-        patient.setNumeroSecuriteSociale("TEST123");
-        patient.setTensionArterielle("120/80");
-        patient.setFrequenceCardiaque(75);
-        patient.setTemperature(new BigDecimal("36.5"));
-        patient.setFrequenceRespiratoire(18);
+for (Patient p : patients) {
+    response.getWriter().println(
+            p.getId() + " - "
+            + p.getNom() + " "
+            + p.getPrenom() + " - "
+            + p.getHeureArrivee()
+    );
+}
 
-        try {
-            JdbcPatientDAO patientDAO = new JdbcPatientDAO();
-            patientDAO.save(patient);
+        Patient patientTrouve = patientDAO.findById(1);
 
-            response.getWriter().println("Patient enregistré avec succès !");
-
-        } catch (Exception e) {
-            response.getWriter().println("Erreur : " + e.getMessage());
+        if (patientTrouve != null) {
+            response.getWriter().println("Nom : " + patientTrouve.getNom());
+            response.getWriter().println("Prénom : " + patientTrouve.getPrenom());
+            response.getWriter().println("NSS : " + patientTrouve.getNumeroSecuriteSociale());
+        } else {
+            response.getWriter().println("Patient introuvable");
         }
+
+    } catch (Exception e) {
+        response.getWriter().println("Erreur : " + e.getMessage());
     }
+}
 }

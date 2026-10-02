@@ -18,6 +18,15 @@ public class PatientTest {
         patient.setTemperature(new BigDecimal("36.5"));
         patient.setFrequenceRespiratoire(18);
 
+        patient.setNom("qartit");
+        patient.setPrenom("bouchra");
+        patient.setDateNaissance(LocalDate.of(2000, 5, 10));
+        patient.setNumeroSecuriteSociale("123456789");
+        patient.setTensionArterielle("120/80");
+        patient.setFrequenceCardiaque(75);
+        patient.setTemperature(new BigDecimal("36.5"));
+        patient.setFrequenceRespiratoire(18);
+
         System.out.println(patient.getNom());
         System.out.println(patient.getPrenom());
         System.out.println(patient.getDateNaissance());

@@ -12,4 +12,6 @@ public interface PatientDAO {
     Patient findById(int id) throws SQLException;
 
     List<Patient> findAll() throws SQLException;
+
+    Patient findByNss(String nss) throws SQLException;
 }

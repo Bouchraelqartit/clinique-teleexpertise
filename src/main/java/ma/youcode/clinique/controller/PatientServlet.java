@@ -1,9 +1,9 @@
 package ma.youcode.clinique.controller;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.math.BigDecimal;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,7 +16,10 @@ import ma.youcode.clinique.repository.JdbcPatientDAO;
 import ma.youcode.clinique.service.PatientService;
 import ma.youcode.clinique.service.PatientServiceImpl;
 
-@WebServlet("/infirmier/patients/nouveau")
+@WebServlet({
+    "/infirmier/patients",
+    "/infirmier/patients/nouveau"
+})
 public class PatientServlet extends HttpServlet {
 
     private PatientService patientService;
@@ -33,6 +36,32 @@ public class PatientServlet extends HttpServlet {
             HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
+
+        String path = request.getServletPath();
+
+        if ("/infirmier/patients".equals(path)) {
+
+            try {
+
+                request.setAttribute(
+                        "patients",
+                        patientService.patientsDuJour()
+                );
+
+                request.getRequestDispatcher(
+                        "/WEB-INF/views/patients.jsp"
+                ).forward(request, response);
+
+            } catch (SQLException e) {
+
+                throw new ServletException(
+                        "Erreur lors de la récupération des patients.",
+                        e
+                );
+            }
+
+            return;
+        }
 
         request.getRequestDispatcher(
                 "/WEB-INF/views/patient-form.jsp"
@@ -95,7 +124,10 @@ public class PatientServlet extends HttpServlet {
 
         } catch (IllegalArgumentException e) {
 
-            request.setAttribute("error", e.getMessage());
+            request.setAttribute(
+                    "error",
+                    e.getMessage()
+            );
 
             request.getRequestDispatcher(
                     "/WEB-INF/views/patient-form.jsp"

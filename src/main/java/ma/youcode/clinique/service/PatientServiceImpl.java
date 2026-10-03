@@ -1,7 +1,9 @@
 package ma.youcode.clinique.service;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import ma.youcode.clinique.entity.Patient;
 import ma.youcode.clinique.repository.PatientDAO;
@@ -58,5 +60,24 @@ public class PatientServiceImpl implements PatientService {
         patient.setHeureArrivee(LocalDateTime.now());
 
         patientDAO.save(patient);
+    }
+
+    @Override
+    public List<Patient> patientsDuJour() throws SQLException {
+
+    LocalDate aujourdHui = LocalDate.now();
+
+    return patientDAO.findAll()
+            .stream()
+            .filter(patient ->
+                    patient.getHeureArrivee()
+                            .toLocalDate()
+                            .equals(aujourdHui)
+            )
+            .sorted((p1, p2) ->
+                    p1.getHeureArrivee()
+                            .compareTo(p2.getHeureArrivee())
+            )
+            .toList();
     }
 }

@@ -1,4 +1,3 @@
-
 package ma.youcode.clinique.controller;
 
 import java.io.IOException;
@@ -20,7 +19,8 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void init() {
-        userService = new UserService(new JdbcUserDAO());
+        userService =
+                new UserService(new JdbcUserDAO());
     }
 
     @Override
@@ -29,37 +29,60 @@ public class LoginServlet extends HttpServlet {
             HttpServletResponse response)
             throws ServletException, IOException {
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String username =
+                request.getParameter("username");
+
+        String password =
+                request.getParameter("password");
 
         try {
 
-            User user = userService.login(username, password);
+            User user =
+                    userService.login(username, password);
 
             if (user != null) {
 
-                HttpSession session = request.getSession();
+                HttpSession session =
+                        request.getSession();
+
                 session.setAttribute("user", user);
 
-                
+                if ("INFIRMIER".equals(user.getRole())) {
 
-                response.getWriter().println(
-                        "Login réussi : " + user.getUsername()
-                );
+                    response.sendRedirect(
+                            request.getContextPath()
+                            + "/protected/infirmier/"
+                    );
+
+                } else if ("GENERALISTE".equals(user.getRole())) {
+
+                    response.sendRedirect(
+                            request.getContextPath()
+                            + "/protected/generaliste/"
+                    );
+
+                } else {
+
+                    response.sendError(
+                            HttpServletResponse.SC_FORBIDDEN,
+                            "Role inconnu"
+                    );
+                }
 
             } else {
 
-                response.getWriter().println(
-                        "Username ou password incorrect"
+                response.sendRedirect(
+                        request.getContextPath()
+                        + "/login.jsp?error=1"
                 );
             }
 
         } catch (Exception e) {
 
-            response.getWriter().println(
-                    "Erreur : " + e.getMessage()
+            throw new ServletException(
+                    "Erreur pendant l'authentification",
+                    e
             );
         }
     }
 }
-

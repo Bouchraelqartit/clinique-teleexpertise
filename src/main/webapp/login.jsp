@@ -10,21 +10,35 @@
 
     <h2>Connexion</h2>
 
-    <form action="${pageContext.request.contextPath}/login" method="post">
+   <form
+    action="${pageContext.request.contextPath}/login"
+    method="post">
 
-        <label>Username :</label>
-        <input type="text" name="username" required>
+    <input
+        type="hidden"
+        name="csrfToken"
+value="${requestScope.csrfToken}"
+    <label>Username :</label>
+    <input
+        type="text"
+        name="username"
+        required>
 
-        <br><br>
+    <br><br>
 
-        <label>Mot de passe :</label>
-        <input type="password" name="password" required>
+    <label>Mot de passe :</label>
+    <input
+        type="password"
+        name="password"
+        required>
 
-        <br><br>
+    <br><br>
 
-        <button type="submit">Se connecter</button>
+    <button type="submit">
+        Se connecter
+    </button>
 
-    </form>
+</form>
 
 </body>
 </html>

@@ -24,8 +24,8 @@
       action="${pageContext.request.contextPath}/infirmier/patients/nouveau">
 
     <input type="hidden"
-           name="_csrf"
-           value="${sessionScope._csrf}">
+           name="csrfToken"
+           value="${sessionScope.csrfToken}">
 
     <label>Nom :</label>
     <input type="text" name="nom" required>

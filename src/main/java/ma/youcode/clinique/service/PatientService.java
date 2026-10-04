@@ -11,4 +11,5 @@ public interface PatientService {
     
 
     List<Patient> patientsDuJour() throws SQLException;
+    List<Patient> patientsEnAttente() throws SQLException;
 }

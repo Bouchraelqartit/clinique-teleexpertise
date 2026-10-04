@@ -8,6 +8,7 @@ import ma.youcode.clinique.entity.Patient;
 public interface PatientService {
 
     void enregistrer(Patient patient) throws SQLException;
+    
 
     List<Patient> patientsDuJour() throws SQLException;
 }

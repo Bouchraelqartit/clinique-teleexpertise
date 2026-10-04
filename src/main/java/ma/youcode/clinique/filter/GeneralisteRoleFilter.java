@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ma.youcode.clinique.entity.User;
 
-@WebFilter("/protected/generaliste/*")
+@WebFilter("/generaliste/*")
 public class GeneralisteRoleFilter implements Filter {
 
     @Override
@@ -48,7 +48,8 @@ public class GeneralisteRoleFilter implements Filter {
             );
             return;
         }
-
+    System.out.println("USER = " + user.getUsername());
+System.out.println("ROLE = " + user.getRole());
         if (!"GENERALISTE".equals(user.getRole())) {
             httpResponse.sendError(
                     HttpServletResponse.SC_FORBIDDEN,

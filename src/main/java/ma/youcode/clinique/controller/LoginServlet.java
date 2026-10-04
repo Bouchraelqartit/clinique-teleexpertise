@@ -51,14 +51,14 @@ public class LoginServlet extends HttpServlet {
 
                     response.sendRedirect(
                             request.getContextPath()
-                            + "/protected/infirmier/"
+                            + "/infirmier/patients"
                     );
 
                 } else if ("GENERALISTE".equals(user.getRole())) {
 
                     response.sendRedirect(
                             request.getContextPath()
-                            + "/protected/generaliste/"
+                            + "/generaliste/patients"
                     );
 
                 } else {

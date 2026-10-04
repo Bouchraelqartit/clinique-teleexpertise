@@ -16,6 +16,7 @@ public class Patient {
     private BigDecimal temperature;
     private int frequenceRespiratoire;
     private LocalDateTime heureArrivee;
+    private Consultation consultation;
 
     public Patient() {
     }
@@ -99,4 +100,11 @@ public class Patient {
     public void setHeureArrivee(LocalDateTime heureArrivee) {
         this.heureArrivee = heureArrivee;
     }
+    public Consultation getConsultation() {
+    return consultation;
+}
+
+public void setConsultation(Consultation consultation) {
+    this.consultation = consultation;
+}
 }

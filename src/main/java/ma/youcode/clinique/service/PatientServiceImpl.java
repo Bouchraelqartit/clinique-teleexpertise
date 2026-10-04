@@ -80,4 +80,13 @@ public class PatientServiceImpl implements PatientService {
             )
             .toList();
     }
+
+    @Override
+public List<Patient> patientsEnAttente() throws SQLException {
+
+    return patientsDuJour()
+            .stream()
+            .filter(p -> p.getConsultation() == null)
+            .toList();
+}
 }

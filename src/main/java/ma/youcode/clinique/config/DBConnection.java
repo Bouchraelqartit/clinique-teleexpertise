@@ -15,7 +15,7 @@ public class DBConnection {
             InitialContext context = new InitialContext();
 
             dataSource = (DataSource) context.lookup(
-                    "java:comp/env/jdbc/clinique"
+                    "java:comp/env/jdbc/clinique_teleexpertise"
             );
 
         } catch (NamingException e) {

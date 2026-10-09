@@ -45,7 +45,6 @@ public class ConsultationServlet extends HttpServlet {
 
         String path = request.getServletPath();
 
-        // Liste des patients en attente
         if ("/generaliste/patients".equals(path)) {
 
             try {
@@ -70,7 +69,6 @@ public class ConsultationServlet extends HttpServlet {
             return;
         }
 
-        // Ouverture du dossier de consultation
         String patientIdParam =
                 request.getParameter("patientId");
 
@@ -157,19 +155,8 @@ public class ConsultationServlet extends HttpServlet {
                     request.getParameter("traitement")
             );
 
-            User user =
-                    (User) request.getSession()
-                            .getAttribute("user");
-
-            if (user == null) {
-
-                response.sendRedirect(
-                        request.getContextPath()
-                                + "/login.jsp"
-                );
-
-                return;
-            }
+            User user = (User) request.getSession(false)
+                    .getAttribute("user");
 
             int medecinId = user.getId();
 

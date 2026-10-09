@@ -45,6 +45,7 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session =
                         request.getSession();
 
+                request.changeSessionId();
                 session.setAttribute("user", user);
 
                 if ("INFIRMIER".equals(user.getRole())) {
@@ -78,11 +79,12 @@ public class LoginServlet extends HttpServlet {
             }
 
         } catch (Exception e) {
-
-            throw new ServletException(
-                    "Erreur pendant l'authentification",
-                    e
-            );
+            log("Erreur pendant l'authentification", e);
+            request.setAttribute(
+                    "loginError",
+                    "Le service de connexion est indisponible. Vérifiez la base de données.");
+            request.getRequestDispatcher("/login.jsp")
+                    .forward(request, response);
         }
     }
 }

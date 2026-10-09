@@ -1,7 +1,7 @@
-CREATE DATABASE clinique;
+CREATE DATABASE clinique_teleexpertise;
 
 
-USE clinique;
+USE clinique_teleexpertise;
 
 CREATE TABLE utilisateur (
     id INT AUTO_INCREMENT PRIMARY KEY,

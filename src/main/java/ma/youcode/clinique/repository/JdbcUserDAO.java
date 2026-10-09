@@ -10,6 +10,21 @@ import ma.youcode.clinique.entity.User;
 
 public class JdbcUserDAO implements UserDAO {
 
+    public int findFirstGeneralisteId() throws SQLException {
+        String sql = "SELECT id FROM utilisateur WHERE role = 'GENERALISTE' ORDER BY id LIMIT 1";
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            if (resultSet.next()) {
+                return resultSet.getInt("id");
+            }
+        }
+
+        throw new SQLException("Aucun utilisateur GENERALISTE n'est configuré pour attribuer la consultation.");
+    }
+
     @Override
     public User findByUsername(String username) throws SQLException {
 

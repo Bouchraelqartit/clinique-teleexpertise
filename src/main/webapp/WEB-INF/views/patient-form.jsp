@@ -1,75 +1,90 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
-    <title>Enregistrer un patient</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nouveau patient | Clinique</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/app.css">
 </head>
+<body class="app-body">
+<%@ include file="fragments/app-header.jspf" %>
 
-<body>
+<main class="page-wrap">
+    <section class="page-heading">
+        <div>
+            <span class="page-overline">Accueil infirmier</span>
+            <h1>Nouveau patient</h1>
+            <p>Renseignez les informations du patient et ses constantes.</p>
+        </div>
+        <a class="secondary-button" href="${pageContext.request.contextPath}/infirmier/patients">← Retour aux patients</a>
+    </section>
 
-<h1>Enregistrer un patient</h1>
+    <c:if test="${not empty param.success}">
+        <div class="alert success" role="status">Patient enregistré avec succès.</div>
+    </c:if>
+    <c:if test="${not empty error}">
+        <div class="alert" role="alert"><c:out value="${error}" /></div>
+    </c:if>
 
-<% if (request.getAttribute("error") != null) { %>
-    <p><%= request.getAttribute("error") %></p>
-<% } %>
+    <div class="form-layout">
+        <section class="content-card form-card" aria-labelledby="patient-form-title">
+            <h2 id="patient-form-title">Informations médicales</h2>
+            <p class="subtext">Les champs marqués sont nécessaires à l'enregistrement.</p>
 
-<% if ("true".equals(request.getParameter("success"))) { %>
-    <p>Patient enregistré avec succès.</p>
-<% } %>
+            <form method="post" action="${pageContext.request.contextPath}/infirmier/patients/nouveau">
+                <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
 
-<form method="post"
-      action="${pageContext.request.contextPath}/infirmier/patients/nouveau">
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label for="prenom">Prénom</label>
+                        <input id="prenom" type="text" name="prenom" autocomplete="given-name" placeholder="Ex. Lina" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="nom">Nom</label>
+                        <input id="nom" type="text" name="nom" autocomplete="family-name" placeholder="Ex. Amrani" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="dateNaissance">Date de naissance</label>
+                        <input id="dateNaissance" type="date" name="dateNaissance" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="nss">Numéro de sécurité sociale</label>
+                        <input id="nss" type="text" name="nss" placeholder="Numéro NSS" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="tension">Tension artérielle</label>
+                        <input id="tension" type="text" name="tension" placeholder="120/80" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="frequenceCardiaque">Fréquence cardiaque</label>
+                        <input id="frequenceCardiaque" type="number" name="frequenceCardiaque" min="1" placeholder="bpm" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="temperature">Température</label>
+                        <input id="temperature" type="number" step="0.1" name="temperature" placeholder="37.0 °C" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="frequenceRespiratoire">Fréquence respiratoire</label>
+                        <input id="frequenceRespiratoire" type="number" name="frequenceRespiratoire" min="1" placeholder="par minute" required>
+                    </div>
+                </div>
 
-    <input type="hidden"
-           name="csrfToken"
-           value="${sessionScope.csrfToken}">
+                <div class="form-actions">
+                    <a class="secondary-button" href="${pageContext.request.contextPath}/infirmier/patients">Annuler</a>
+                    <button class="primary-button compact" type="submit">Enregistrer le patient <span aria-hidden="true">→</span></button>
+                </div>
+            </form>
+        </section>
 
-    <label>Nom :</label>
-    <input type="text" name="nom" required>
-
-    <br><br>
-
-    <label>Prénom :</label>
-    <input type="text" name="prenom" required>
-
-    <br><br>
-
-    <label>Date de naissance :</label>
-    <input type="date" name="dateNaissance" required>
-
-    <br><br>
-
-    <label>NSS :</label>
-    <input type="text" name="nss" required>
-
-    <br><br>
-
-    <label>Tension :</label>
-    <input type="text" name="tension" placeholder="120/80" required>
-
-    <br><br>
-
-    <label>Fréquence cardiaque :</label>
-    <input type="number" name="frequenceCardiaque" required>
-
-    <br><br>
-
-    <label>Température :</label>
-    <input type="number" step="0.1" name="temperature" required>
-
-    <br><br>
-
-    <label>Fréquence respiratoire :</label>
-    <input type="number" name="frequenceRespiratoire" required>
-
-    <br><br>
-
-    <button type="submit">Enregistrer</button>
-
-</form>
-
+        <aside class="side-note">
+            <span class="note-mark" aria-hidden="true">＋</span>
+            <h3>Un accueil attentif</h3>
+            <p>Vérifiez les informations d'identité et les constantes avant d'envoyer le dossier à l'équipe médicale.</p>
+        </aside>
+    </div>
+</main>
+<footer class="app-footer">Clinique · Les informations de santé sont confidentielles.</footer>
 </body>
 </html>

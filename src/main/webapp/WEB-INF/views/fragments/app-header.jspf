@@ -1,0 +1,24 @@
+<header class="app-topbar">
+    <a class="brand" href="${pageContext.request.contextPath}${sessionScope.user.role eq 'INFIRMIER' ? '/infirmier/patients' : '/generaliste/patients'}">
+        <span class="brand-mark" aria-hidden="true">+</span>
+        <span>Clinique</span>
+    </a>
+
+    <nav class="app-nav" aria-label="Navigation espace professionnel">
+        <c:choose>
+            <c:when test="${sessionScope.user.role eq 'INFIRMIER'}">
+                <a href="${pageContext.request.contextPath}/infirmier/patients">Patients du jour</a>
+                <a href="${pageContext.request.contextPath}/infirmier/patients/nouveau">Nouveau patient</a>
+            </c:when>
+            <c:otherwise>
+                <a href="${pageContext.request.contextPath}/generaliste/patients">Patients en attente</a>
+            </c:otherwise>
+        </c:choose>
+    </nav>
+
+    <div class="account-area">
+        <span class="account-avatar" aria-hidden="true">✚</span>
+        <span><c:out value="${sessionScope.user.username}" /></span>
+        <a class="logout-link" href="${pageContext.request.contextPath}/logout">Déconnexion</a>
+    </div>
+</header>
